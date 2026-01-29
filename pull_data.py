@@ -42,28 +42,36 @@ def fetch_receiving_stats(year: int) -> pd.DataFrame:
     df["year"] = year
     return df
 
-years = list(range(2008,2009)) 
+draft_years = list(range(2000,2006)) 
+stat_years = list(range(2005,2010)) 
 
 
 # DRAFT DATA
 
-# draft = pd.concat([fetch_draft_picks(y) for y in tqdm(years, desc="Draft years")], ignore_index=True)
-# draft_wr = draft[draft["position"]=="Wide Receiver"].copy()
+def run_draft_collection():
+    draft = pd.concat([fetch_draft_picks(y) for y in tqdm(draft_years, desc="Draft years")], ignore_index=True)
+    draft_wr = draft[draft["position"]=="Wide Receiver"].copy()
 
-# draft_wr = draft_wr[
-#     ["year", "overall", "round", "pick", "name",
-#      "collegeTeam", "collegeConference", "nflTeam",
-#      "collegeAthleteId", "nflAthleteId"]
-# ]
-# print("Drafted WR rows:", len(draft_wr))
-# draft_wr.to_csv("draft_wr_2008.csv", index=False)
+    draft_wr = draft_wr[
+        ["year", "overall", "round", "pick", "name",
+        "collegeTeam", "collegeConference", "nflTeam",
+        "collegeAthleteId", "nflAthleteId"]
+    ]
+    print("Drafted WR rows:", len(draft_wr))
+    draft_wr.to_csv("Data/Raw/draft_wr_2012_2016.csv", index=False)
 
 
-# RECEIVING DATA
+# SEASON LONG RECEIVING DATA
 
-receiving_stats = pd.concat([fetch_receiving_stats(y) for y in tqdm(years, desc="Receiving years")], ignore_index=True)
-receiving_wr = receiving_stats[(receiving_stats["position"]=="WR") & (receiving_stats["category"]=="receiving")].copy()
+def run_receiving_collection():
+    receiving_stats = pd.concat([fetch_receiving_stats(y) for y in tqdm(stat_years, desc="Receiving years")], ignore_index=True)
+    receiving_wr = receiving_stats[(receiving_stats["position"]=="WR") & (receiving_stats["category"]=="receiving")].copy()
 
-print("Receiving WR rows:", len(receiving_wr))
-receiving_wr.to_csv("receiving_wr_2008.csv", index=False)
+    print("Receiving WR rows:", len(receiving_wr))
+    receiving_wr.to_csv("Data/Raw/receiving_wr_2008_2009.csv", index=False)
 
+
+# RUN
+
+run_draft_collection()
+run_receiving_collection()
