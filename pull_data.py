@@ -42,14 +42,14 @@ def fetch_receiving_stats(year: int) -> pd.DataFrame:
     df["year"] = year
     return df
 
-draft_years = list(range(2000,2006)) 
-stat_years = list(range(2005,2010)) 
+draft_years = list(range(2013,2026)) 
+stat_years = list(range(2009,2026)) 
 
 
 # DRAFT DATA
 
-def run_draft_collection():
-    draft = pd.concat([fetch_draft_picks(y) for y in tqdm(draft_years, desc="Draft years")], ignore_index=True)
+def run_draft_collection(year):
+    draft = fetch_draft_picks(year)
     draft_wr = draft[draft["position"]=="Wide Receiver"].copy()
 
     draft_wr = draft_wr[
@@ -58,20 +58,23 @@ def run_draft_collection():
         "collegeAthleteId", "nflAthleteId"]
     ]
     print("Drafted WR rows:", len(draft_wr))
-    draft_wr.to_csv("Data/Raw/draft_wr_2012_2016.csv", index=False)
+    draft_wr.to_csv(f"Data/Raw/draft_wr_{year}.csv", index=False)
 
 
 # SEASON LONG RECEIVING DATA
 
-def run_receiving_collection():
-    receiving_stats = pd.concat([fetch_receiving_stats(y) for y in tqdm(stat_years, desc="Receiving years")], ignore_index=True)
+def run_receiving_collection(year):
+    receiving_stats = fetch_receiving_stats(year)
     receiving_wr = receiving_stats[(receiving_stats["position"]=="WR") & (receiving_stats["category"]=="receiving")].copy()
 
     print("Receiving WR rows:", len(receiving_wr))
-    receiving_wr.to_csv("Data/Raw/receiving_wr_2008_2009.csv", index=False)
+    # receiving_wr.to_csv(f"Data/Raw/receiving_wr_{year}.csv", index=False)
+    receiving_stats.to_csv(f"Data/Raw/Test/TEST_receiving_wr_{year}.csv", index=False)
 
 
 # RUN
 
-run_draft_collection()
-run_receiving_collection()
+# for year in draft_years:
+#     run_draft_collection(year)
+# for year in stat_years:
+run_receiving_collection(2024)
