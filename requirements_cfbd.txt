@@ -1,0 +1,6 @@
+pydantic==1.10.26
+cfbd==5.13.2
+pandas==2.3.3
+tqdm==4.67.3
+python-dotenv==1.2.1
+

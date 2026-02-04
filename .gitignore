@@ -1,3 +1,5 @@
 .env
 *.csv
 *.parquet
+.venv_cfbd/
+.venv_nfl/

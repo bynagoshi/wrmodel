@@ -41,6 +41,7 @@ def fetch_receiving_stats(year: int) -> pd.DataFrame:
     df = pd.DataFrame([r.to_dict() for r in receiving])
     df["year"] = year
     return df
+    
 
 draft_years = list(range(2013,2026)) 
 stat_years = list(range(2009,2026)) 
@@ -70,6 +71,9 @@ def run_receiving_collection(year):
     print("Receiving WR rows:", len(receiving_wr))
     # receiving_wr.to_csv(f"Data/Raw/receiving_wr_{year}.csv", index=False)
     receiving_stats.to_csv(f"Data/Raw/Test/TEST_receiving_wr_{year}.csv", index=False)
+
+
+def run
 
 
 # RUN
